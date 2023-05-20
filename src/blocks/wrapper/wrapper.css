@@ -1,6 +1,6 @@
 .wrapper {
-    min-height: 100%;
+    position: relative;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    position: relative;
 }
