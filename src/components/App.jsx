@@ -4,6 +4,7 @@ import {Header} from "./Header";
 import {Footer} from "./Footer";
 import {Main} from "./Main";
 import {PopupWithForm} from "./PopupWithForm";
+import {popupOptions} from "../utils/constants";
 
 function App() {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false)
@@ -23,6 +24,13 @@ function App() {
         setIsAddPlacePopupOpen(true)
     }
 
+    const _closeAllPopups = (popup) => {
+        const openedPopups = document.querySelectorAll(popupOptions.openedPopupSelector)
+        openedPopups.forEach(popup => {
+            popup.classList.remove(popupOptions.openedPopupClass);
+        })
+    }
+
     return (
         <div className="root">
             <div className="wrapper">
@@ -37,7 +45,8 @@ function App() {
                 <Footer/>
             </div>
 
-            <PopupWithForm name="edit" title="Редактировать профиль" isOpen={isEditProfilePopupOpen}>
+            <PopupWithForm name="edit" title="Редактировать профиль" isOpen={isEditProfilePopupOpen}
+                           onClose={_closeAllPopups}>
                 <fieldset className="form__inputs" form="form_profile">
                     <label className="form__label" htmlFor="input_user_full_name">
                         <input className="form__input form__input_field_user-full-name"
@@ -71,7 +80,7 @@ function App() {
 
             </PopupWithForm>
 
-            <PopupWithForm name="add-photo" title="Новое место" isOpen={isAddPlacePopupOpen}>
+            <PopupWithForm name="add-photo" title="Новое место" isOpen={isAddPlacePopupOpen} onClose={_closeAllPopups}>
                 <fieldset className="form__inputs" form="form_image">
                     <label className="form__label" htmlFor="input_image_description">
                         <input className="form__input form__input_field_image-description"
@@ -103,7 +112,7 @@ function App() {
                 </fieldset>
             </PopupWithForm>
 
-            <PopupWithForm name="update-avatar" title="Обновить аватар" isOpen={isEditAvatarPopupOpen}>
+            <PopupWithForm name="update-avatar" title="Обновить аватар" isOpen={isEditAvatarPopupOpen} onClose={_closeAllPopups}>
                 <fieldset className="form__inputs" form="form_avatar">
                     <label className="form__label" htmlFor="input_avatar_src">
                         <input className="form__input form__input_field_avatar-src"
