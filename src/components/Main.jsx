@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import avatar from "../images/page/avatar.jpg";
 import {api} from "../utils/api";
+import {Card} from "./Card";
 
 export const Main = (props) => {
     const [userName, setUserName] = useState(null)
@@ -8,7 +9,7 @@ export const Main = (props) => {
     const [userAvatar, setUserAvatar] = useState(null)
     const [cards, setCards] = useState([])
 
-    useEffect(()=> {
+    useEffect(() => {
         api.loadUserInfo()
             .then(res => {
                 console.log('userInfo', res)
@@ -17,7 +18,7 @@ export const Main = (props) => {
                 setUserDescriptions(res.about);
                 setUserAvatar(res.avatar);
 
-              return api.getInitialCards()
+                return api.getInitialCards()
             })
             .then(cards => {
                 setCards([...cards])
@@ -50,26 +51,7 @@ export const Main = (props) => {
 
             <section className="content-photos">
                 <ul className="content-photos__list">
-                    {cards.map((card, index) => (
-                        <li key={index} className="photo-item">
-                            <button className="button photo-item__button-delete" type="button" aria-label="Удалить"
-                                    data-action="DELETE"></button>
-                            <img className="photo-item__img"
-                                 src={card.link}
-                                 alt="Описание фото"
-                                 data-action="PREVIEW"
-                            />
-                                <div className="photo-item__info">
-                                    <h2 className="photo-item__description">{card.name}</h2>
-
-                                    <div className="photo-item__like-stats">
-                                        <button className="button photo-item__button-like" type="button"
-                                                data-action="LIKE"></button>
-                                        <div className="photo-item__like-count">{card.likes.length}</div>
-                                    </div>
-                                </div>
-                        </li>
-                    ))}
+                    {cards.map((card, index) => (<Card card={card} key={index}/>))}
                 </ul>
             </section>
 
