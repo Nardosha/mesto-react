@@ -7,10 +7,8 @@
 @import 'blocks/wrapper/wrapper.css';
 @import 'blocks/button/button.css';
 
-
 @import 'blocks/header/header.css';
 @import 'blocks/header/__logo/header__logo.css';
-
 
 @import 'blocks/page/page.css';
 
@@ -24,10 +22,8 @@
 @import 'blocks/profile/__description/profile__description.css';
 @import 'blocks/profile/__edit-button/profile__edit-button.css';
 
-
 @import 'blocks/content-photos/content-photos.css';
 @import 'blocks/content-photos/__list/content-photos__list.css';
-
 
 @import 'blocks/photo-item/photo-item.css';
 @import 'blocks/photo-item/__img/photo-item__img.css';
@@ -40,10 +36,8 @@
 @import 'blocks/photo-item/__button-delete/photo-item__button-delete.css';
 @import 'blocks/photo-item/__button-delete/_visibility/photo-item__button-delete_visibility_hidden.css';
 
-
 @import 'blocks/footer/footer.css';
 @import 'blocks/footer/__copyright/footer__copyright.css';
-
 
 @import 'blocks/popup/popup.css';
 @import 'blocks/popup/__container/popup__container.css';
