@@ -1,12 +1,13 @@
 import React from "react";
 import avatar from "../images/page/avatar.jpg";
 
-export const Main = () => {
+export const Main = (props) => {
+
     return (
         <main className="page">
             <section className="profile">
                 <div className="profile__info-container">
-                    <button className="profile__avatar-button" type="button">
+                    <button className="profile__avatar-button" type="button" onClick={props.onEditAvatar}>
                         <img className="profile__avatar" src={avatar} alt="Аватар"/>
                     </button>
                     <div className="profile__settings">
@@ -14,12 +15,16 @@ export const Main = () => {
                         <p className="profile__description" data-user-field="userDescription"></p>
                         <button className="button profile__edit-button" data-action="OPEN"
                                 data-action-type="EDIT" type="button"
-                                aria-label="Редактировать"></button>
+                                aria-label="Редактировать"
+                                onClick={props.onEditProfile}
+                        />
                     </div>
                 </div>
                 <button className="button profile__add-button" type="button" aria-label="Загрузить"
                         data-action="OPEN"
-                        data-action-type="ADD"></button>
+                        data-action-type="ADD"
+                        onClick={props.onAddPlace}
+                />
             </section>
 
             <section className="content-photos">
