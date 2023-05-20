@@ -66,7 +66,7 @@ export const Main = props => {
       <section className="content-photos">
         <ul className="content-photos__list">
           {cards.map((card, index) => (
-            <Card card={card} key={index} onCardClick={props.onCardClick} />
+            <Card card={card} key={card._id} onCardClick={props.onCardClick} />
           ))}
         </ul>
       </section>

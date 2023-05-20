@@ -27,12 +27,10 @@ function App() {
   };
 
   const _closeAllPopups = () => {
-    const openedPopups = document.querySelectorAll(
-      popupOptions.openedPopupSelector,
-    );
-    openedPopups.forEach(popup => {
-      popup.classList.remove(popupOptions.openedPopupClass);
-    });
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setIsConfirmPopupOpen(false)
     setSelectedCard(null);
   };
 
