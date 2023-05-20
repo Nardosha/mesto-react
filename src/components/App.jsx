@@ -5,12 +5,14 @@ import {Footer} from "./Footer";
 import {Main} from "./Main";
 import {PopupWithForm} from "./PopupWithForm";
 import {popupOptions} from "../utils/constants";
+import {ImagePopup} from "./ImagePopup";
 
 function App() {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false)
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false)
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false)
     const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false)
+    const [selectedCard, setSelectedCard] = useState(null)
 
     const _handleEditAvatarClick = () => {
         setIsEditAvatarPopupOpen(true)
@@ -24,11 +26,16 @@ function App() {
         setIsAddPlacePopupOpen(true)
     }
 
-    const _closeAllPopups = (popup) => {
+    const _closeAllPopups = () => {
         const openedPopups = document.querySelectorAll(popupOptions.openedPopupSelector)
         openedPopups.forEach(popup => {
             popup.classList.remove(popupOptions.openedPopupClass);
         })
+        setSelectedCard(null)
+    }
+
+    const _handleCardClick = (card) => {
+        setSelectedCard(card)
     }
 
     return (
@@ -40,13 +47,17 @@ function App() {
                     onEditProfile={_handleEditProfileClick}
                     onAddPlace={_handleAddPlaceClick}
                     onEditAvatar={_handleEditAvatarClick}
+                    onCardClick={_handleCardClick}
                 />
 
                 <Footer/>
             </div>
 
-            <PopupWithForm name="edit" title="Редактировать профиль" isOpen={isEditProfilePopupOpen}
-                           onClose={_closeAllPopups}>
+            <PopupWithForm
+                name="edit"
+                title="Редактировать профиль"
+                isOpen={isEditProfilePopupOpen}
+                onClose={_closeAllPopups}>
                 <fieldset className="form__inputs" form="form_profile">
                     <label className="form__label" htmlFor="input_user_full_name">
                         <input className="form__input form__input_field_user-full-name"
@@ -80,7 +91,11 @@ function App() {
 
             </PopupWithForm>
 
-            <PopupWithForm name="add-photo" title="Новое место" isOpen={isAddPlacePopupOpen} onClose={_closeAllPopups}>
+            <PopupWithForm
+                name="add-photo"
+                title="Новое место"
+                isOpen={isAddPlacePopupOpen}
+                onClose={_closeAllPopups}>
                 <fieldset className="form__inputs" form="form_image">
                     <label className="form__label" htmlFor="input_image_description">
                         <input className="form__input form__input_field_image-description"
@@ -112,7 +127,11 @@ function App() {
                 </fieldset>
             </PopupWithForm>
 
-            <PopupWithForm name="update-avatar" title="Обновить аватар" isOpen={isEditAvatarPopupOpen} onClose={_closeAllPopups}>
+            <PopupWithForm
+                name="update-avatar"
+                title="Обновить аватар"
+                isOpen={isEditAvatarPopupOpen}
+                onClose={_closeAllPopups}>
                 <fieldset className="form__inputs" form="form_avatar">
                     <label className="form__label" htmlFor="input_avatar_src">
                         <input className="form__input form__input_field_avatar-src"
@@ -129,40 +148,15 @@ function App() {
                 </fieldset>
             </PopupWithForm>
 
-            <PopupWithForm name="confirm" title="Вы уверены?" isOpen={isConfirmPopupOpen}/>
+            <PopupWithForm
+                name="confirm"
+                title="Вы уверены?"
+                isOpen={isConfirmPopupOpen}/>
 
-            <dialog className="popup popup-show-photo" data-popup-type="SHOW" open>
-                <div className="popup-show-photo__container">
-                    <button className="button popup__button-close"
-                            type="button"
-                            data-action="CLOSE"
-                            aria-label="Закрыть">
-                    </button>
-                    <img className="popup-show-photo__photo" src="src/components/App#" alt="Описание фото"/>
-                    <h2 className="popup-show-photo__description">Описание фото</h2>
-                </div>
-            </dialog>
-
-            <template className="photo-template">
-                <li className="photo-item">
-                    <button className="button photo-item__button-delete" type="button" aria-label="Удалить"
-                            data-action="DELETE"></button>
-                    <img className="photo-item__img"
-                         src={cardImage}
-                         alt="Описание фото"
-                         data-action="PREVIEW"
-                    />
-                    <div className="photo-item__info">
-                        <h2 className="photo-item__description">Описание фото</h2>
-
-                        <div className="photo-item__like-stats">
-                            <button className="button photo-item__button-like" type="button"
-                                    data-action="LIKE"></button>
-                            <div className="photo-item__like-count">0</div>
-                        </div>
-                    </div>
-                </li>
-            </template>
+            <ImagePopup
+                card={selectedCard}
+                onClose={_closeAllPopups}
+            />
         </div>
     );
 }

@@ -1,14 +1,16 @@
 import React from "react";
 
-function Card({card, key}) {
+function Card({card, onCardClick}) {
+
     return (
-        <li key={key} className="photo-item">
+        <li className="photo-item">
             <button className="button photo-item__button-delete" type="button" aria-label="Удалить"
                     data-action="DELETE"></button>
             <img className="photo-item__img"
                  src={card.link}
                  alt="Описание фото"
                  data-action="PREVIEW"
+                 onClick={() => onCardClick(card)}
             />
             <div className="photo-item__info">
                 <h2 className="photo-item__description">{card.name}</h2>

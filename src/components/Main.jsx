@@ -12,8 +12,6 @@ export const Main = (props) => {
     useEffect(() => {
         api.loadUserInfo()
             .then(res => {
-                console.log('userInfo', res)
-
                 setUserName(res.name);
                 setUserDescriptions(res.about);
                 setUserAvatar(res.avatar);
@@ -22,7 +20,6 @@ export const Main = (props) => {
             })
             .then(cards => {
                 setCards([...cards])
-                console.log('cards', cards)
             })
     }, [])
     return (
@@ -51,7 +48,7 @@ export const Main = (props) => {
 
             <section className="content-photos">
                 <ul className="content-photos__list">
-                    {cards.map((card, index) => (<Card card={card} key={index}/>))}
+                    {cards.map((card, index) => (<Card card={card} key={index} onCardClick={props.onCardClick} />))}
                 </ul>
             </section>
 
