@@ -24,7 +24,7 @@ export const PopupWithForm = props => {
 
         <form
           className="popup__form form"
-          action="src/components/App#App.jsx"
+          action="#"
           name={name}
           id={name}
           onSubmit={onSubmit}

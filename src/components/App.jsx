@@ -15,7 +15,9 @@ function App() {
     name: '',
     description: '',
     avatar: '',
+    _id: null,
   });
+
   const [cards, setCards] = useState([]);
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
