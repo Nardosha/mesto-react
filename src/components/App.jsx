@@ -7,6 +7,7 @@ import { ImagePopup } from './ImagePopup';
 import { api } from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { EditProfilePopup } from './EditProfilePopup';
+import { EditAvatarPopup } from './EditAvatarPopup';
 
 function App() {
   const [currentUser, setCurrentUser] = React.useState({
@@ -63,6 +64,10 @@ function App() {
       });
     });
   };
+
+const _handleUpdateAvatar = ({avatar}) => {
+  setCurrentUser({...currentUser, avatar})
+}
 
   const _handleDeleteCard = deletedCard => {
     api.deleteCard(deletedCard._id).then(res => {
@@ -159,30 +164,11 @@ function App() {
           </fieldset>
         </PopupWithForm>
 
-        <PopupWithForm
-          name="update-avatar"
-          title="Обновить аватар"
+        <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={_closeAllPopups}
-        >
-          <fieldset className="form__inputs" form="form_avatar">
-            <label className="form__label" htmlFor="input_avatar_src">
-              <input
-                className="form__input form__input_field_avatar-src"
-                id="input_avatar_src"
-                name="avatar"
-                type="url"
-                placeholder="Ссылка на картинку"
-                required
-              />
-
-              <span
-                className="form__input-error"
-                id="input_avatar_src-error"
-              ></span>
-            </label>
-          </fieldset>
-        </PopupWithForm>
+          onUpdateAvatar={_handleUpdateAvatar}
+        />
 
         <PopupWithForm
           name="confirm"

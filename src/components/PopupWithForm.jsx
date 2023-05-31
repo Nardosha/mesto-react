@@ -2,7 +2,7 @@ import React from 'react';
 import { popupOptions } from '../utils/constants';
 
 export const PopupWithForm = props => {
-  const { name, title, isOpen, onClose, onUpdateUser } = props;
+  const { name, title, isOpen, onClose, onSubmit } = props;
 
   return (
     <dialog
@@ -27,7 +27,7 @@ export const PopupWithForm = props => {
           action="src/components/App#App.jsx"
           name={name}
           id={name}
-          onSubmit={onUpdateUser}
+          onSubmit={onSubmit}
         >
           {props.children}
 
