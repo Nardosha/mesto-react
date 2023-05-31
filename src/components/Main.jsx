@@ -1,27 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { api } from '../utils/api';
+import React, { useContext } from 'react';
 import { Card } from './Card';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-export const Main = props => {
-  const [userName, setUserName] = useState(null);
-  const [userDescriptions, setUserDescriptions] = useState(null);
-  const [userAvatar, setUserAvatar] = useState(null);
-  const [cards, setCards] = useState([]);
+export const Main = ({
+  cards,
+  onEditProfile,
+  onAddPlace,
+  onEditAvatar,
+  onCardClick,
+  onCardLike,
+  onCardDelete,
+}) => {
+  const currentUser = useContext(CurrentUserContext);
 
-  useEffect(() => {
-    api
-      .loadUserInfo()
-      .then(res => {
-        setUserName(res.name);
-        setUserDescriptions(res.about);
-        setUserAvatar(res.avatar);
-
-        return api.getInitialCards();
-      })
-      .then(cards => {
-        setCards([...cards]);
-      });
-  }, []);
   return (
     <main className="page">
       <section className="profile">
@@ -29,19 +20,23 @@ export const Main = props => {
           <button
             className="profile__avatar-button"
             type="button"
-            onClick={props.onEditAvatar}
+            onClick={onEditAvatar}
           >
-            <img className="profile__avatar" src={userAvatar} alt="Аватар" />
+            <img
+              className="profile__avatar"
+              src={currentUser.avatar}
+              alt="Аватар"
+            />
           </button>
           <div className="profile__settings">
             <h1 className="profile__full-name" data-user-field="userFullName">
-              {userName}
+              {currentUser.name}
             </h1>
             <p
               className="profile__description"
               data-user-field="userDescription"
             >
-              {userDescriptions}
+              {currentUser.description}
             </p>
             <button
               className="button profile__edit-button"
@@ -49,7 +44,7 @@ export const Main = props => {
               data-action-type="EDIT"
               type="button"
               aria-label="Редактировать"
-              onClick={props.onEditProfile}
+              onClick={onEditProfile}
             />
           </div>
         </div>
@@ -59,14 +54,20 @@ export const Main = props => {
           aria-label="Загрузить"
           data-action="OPEN"
           data-action-type="ADD"
-          onClick={props.onAddPlace}
+          onClick={onAddPlace}
         />
       </section>
 
       <section className="content-photos">
         <ul className="content-photos__list">
-          {cards.map((card, index) => (
-            <Card card={card} key={card._id} onCardClick={props.onCardClick} />
+          {cards.map(card => (
+            <Card
+              card={card}
+              key={card._id}
+              onCardClick={onCardClick}
+              onCardLike={onCardLike}
+              onCardDelete={onCardDelete}
+            />
           ))}
         </ul>
       </section>
