@@ -6,13 +6,6 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 export const Main = props => {
   const currentUser = useContext(CurrentUserContext);
 
-  const [cards, setCards] = useState([]);
-
-  useEffect(() => {
-    api.getInitialCards().then(cards => {
-      setCards([...cards]);
-    });
-  }, []);
   return (
     <main className="page">
       <section className="profile">
@@ -22,7 +15,11 @@ export const Main = props => {
             type="button"
             onClick={props.onEditAvatar}
           >
-            <img className="profile__avatar" src={currentUser.avatar} alt="Аватар" />
+            <img
+              className="profile__avatar"
+              src={currentUser.avatar}
+              alt="Аватар"
+            />
           </button>
           <div className="profile__settings">
             <h1 className="profile__full-name" data-user-field="userFullName">
@@ -56,8 +53,8 @@ export const Main = props => {
 
       <section className="content-photos">
         <ul className="content-photos__list">
-          {cards.map((card, index) => (
-            <Card card={card} key={card._id} onCardClick={props.onCardClick} />
+          {props.cards.map(card => (
+            <Card card={card} key={card._id} onCardClick={props.onCardClick} onCardLike={props.onCardLike} onCardDelete={props.onCardDelete} />
           ))}
         </ul>
       </section>

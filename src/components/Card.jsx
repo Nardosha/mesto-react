@@ -2,12 +2,12 @@ import React, { useContext } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { cardOptions } from '../utils/constants';
 
-function Card({ card, onCardClick }) {
+function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   const currentUser = useContext(CurrentUserContext);
-  const isOwn = card.owner._id === currentUser._id
+  const isOwn = card.owner._id === currentUser._id;
   const isLiked = card.likes.find(user => user._id === currentUser._id);
-  console.log(isOwn, card, isLiked);
 
+  // console.log('Карточка', card);
   return (
     <li className="photo-item">
       {isOwn && (
@@ -16,6 +16,7 @@ function Card({ card, onCardClick }) {
           type="button"
           aria-label="Удалить"
           data-action="DELETE"
+          onClick={() => onCardDelete(card)}
         ></button>
       )}
 
@@ -36,6 +37,7 @@ function Card({ card, onCardClick }) {
             }`}
             type="button"
             data-action="LIKE"
+            onClick={() => onCardLike(card)}
           ></button>
           <div className="photo-item__like-count">{card.likes.length}</div>
         </div>
