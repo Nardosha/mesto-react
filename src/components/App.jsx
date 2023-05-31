@@ -6,6 +6,7 @@ import { PopupWithForm } from './PopupWithForm';
 import { ImagePopup } from './ImagePopup';
 import { api } from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { EditProfilePopup } from './EditProfilePopup';
 
 function App() {
   const [currentUser, setCurrentUser] = React.useState({
@@ -53,15 +54,23 @@ function App() {
     });
   };
 
-  const _handleDeleteCard = (deletedCard) => {
-    api.deleteCard(deletedCard._id)
-      .then(res => {
+  const _handleUpdateUser = ({ name, description }) => {
+    api.editUserInfo({ name, about: description }).then(res => {
+      setCurrentUser({
+        ...currentUser,
+        name: res.name,
+        description: res.about,
+      });
+    });
+  };
+
+  const _handleDeleteCard = deletedCard => {
+    api.deleteCard(deletedCard._id).then(res => {
       console.log(res);
 
-      setCards(state => state.filter(card => card._id !== deletedCard._id))
-
-    })
-  }
+      setCards(state => state.filter(card => card._id !== deletedCard._id));
+    });
+  };
 
   useEffect(() => {
     api
@@ -100,50 +109,11 @@ function App() {
           <Footer />
         </div>
 
-        <PopupWithForm
-          name="edit"
-          title="Редактировать профиль"
+        <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={_closeAllPopups}
-        >
-          <fieldset className="form__inputs" form="form_profile">
-            <label className="form__label" htmlFor="input_user_full_name">
-              <input
-                className="form__input form__input_field_user-full-name"
-                id="input_user_full_name"
-                data-user-field="userFullName"
-                name="name"
-                type="text"
-                placeholder="Введите имя"
-                minLength="2"
-                maxLength="40"
-                required
-              />
-              <span
-                className="form__input-error"
-                id="input_user_full_name-error"
-              ></span>
-            </label>
-
-            <label className="form__label" htmlFor="input_user_description">
-              <input
-                className="form__input form__input_field_user-description"
-                id="input_user_description"
-                data-user-field="userDescription"
-                name="about"
-                type="text"
-                placeholder="Введите описание"
-                minLength="2"
-                maxLength="200"
-                required
-              />
-              <span
-                className="form__input-error"
-                id="input_user_description-error"
-              ></span>
-            </label>
-          </fieldset>
-        </PopupWithForm>
+          onUpdateUser={_handleUpdateUser}
+        />
 
         <PopupWithForm
           name="add-photo"
