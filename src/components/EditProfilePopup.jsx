@@ -5,17 +5,12 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 export const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
   const currentUser = useContext(CurrentUserContext);
 
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  const [name, setName] = useState(currentUser.name || '');
+  const [description, setDescription] = useState(currentUser.description || '');
 
   const _handleNameChange = e => {
     setName(e.target.value);
   };
-
-  useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.description);
-  }, [currentUser]);
 
   const _handleDescriptionChange = e => {
     setDescription(e.target.value);
@@ -32,13 +27,18 @@ export const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
     onClose();
   };
 
+  useEffect(() => {
+    setName(currentUser.name);
+    setDescription(currentUser.description);
+  }, [currentUser]);
+
   return (
     <PopupWithForm
       name="edit"
       title="Редактировать профиль"
       isOpen={isOpen}
       onClose={onClose}
-      onUpdateUser={_handleSubmit}
+      onSubmit={_handleSubmit}
     >
       <fieldset className="form__inputs" form="form_profile">
         <label className="form__label" htmlFor="input_user_full_name">
@@ -52,7 +52,6 @@ export const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
             minLength="2"
             maxLength="40"
             required
-            defaultValue={currentUser.name}
             value={name}
             onChange={_handleNameChange}
           />
@@ -73,7 +72,6 @@ export const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
             minLength="2"
             maxLength="200"
             required
-            defaultValue={currentUser.description}
             value={description}
             onChange={_handleDescriptionChange}
           />
