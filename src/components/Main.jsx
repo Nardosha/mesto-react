@@ -1,9 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { api } from '../utils/api';
+import React, { useContext } from 'react';
 import { Card } from './Card';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-export const Main = props => {
+export const Main = ({
+  cards,
+  onEditProfile,
+  onAddPlace,
+  onEditAvatar,
+  onCardClick,
+  onCardLike,
+  onCardDelete,
+}) => {
   const currentUser = useContext(CurrentUserContext);
 
   return (
@@ -13,7 +20,7 @@ export const Main = props => {
           <button
             className="profile__avatar-button"
             type="button"
-            onClick={props.onEditAvatar}
+            onClick={onEditAvatar}
           >
             <img
               className="profile__avatar"
@@ -37,7 +44,7 @@ export const Main = props => {
               data-action-type="EDIT"
               type="button"
               aria-label="Редактировать"
-              onClick={props.onEditProfile}
+              onClick={onEditProfile}
             />
           </div>
         </div>
@@ -47,14 +54,20 @@ export const Main = props => {
           aria-label="Загрузить"
           data-action="OPEN"
           data-action-type="ADD"
-          onClick={props.onAddPlace}
+          onClick={onAddPlace}
         />
       </section>
 
       <section className="content-photos">
         <ul className="content-photos__list">
-          {props.cards.map(card => (
-            <Card card={card} key={card._id} onCardClick={props.onCardClick} onCardLike={props.onCardLike} onCardDelete={props.onCardDelete} />
+          {cards.map(card => (
+            <Card
+              card={card}
+              key={card._id}
+              onCardClick={onCardClick}
+              onCardLike={onCardLike}
+              onCardDelete={onCardDelete}
+            />
           ))}
         </ul>
       </section>
