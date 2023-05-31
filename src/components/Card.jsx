@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { cardOptions } from '../utils/constants';
 
 function Card({ card, onCardClick }) {
+  const currentUser = useContext(CurrentUserContext);
+  const isOwn = card.owner._id === currentUser._id
+  const isLiked = card.likes.find(user => user._id === currentUser._id);
+  console.log(isOwn, card, isLiked);
+
   return (
     <li className="photo-item">
-      <button
-        className="button photo-item__button-delete"
-        type="button"
-        aria-label="Удалить"
-        data-action="DELETE"
-      ></button>
+      {isOwn && (
+        <button
+          className="button photo-item__button-delete"
+          type="button"
+          aria-label="Удалить"
+          data-action="DELETE"
+        ></button>
+      )}
+
       <img
         className="photo-item__img"
         src={card.link}
@@ -21,7 +31,9 @@ function Card({ card, onCardClick }) {
 
         <div className="photo-item__like-stats">
           <button
-            className="button photo-item__button-like"
+            className={`button photo-item__button-like ${
+              isLiked && cardOptions.buttonLikeActiveClass
+            }`}
             type="button"
             data-action="LIKE"
           ></button>
