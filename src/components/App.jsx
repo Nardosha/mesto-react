@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import cardImage from '../images/page/content-photos/content-photos_item-1.jpg';
 import { Header } from './Header';
 import { Footer } from './Footer';
@@ -6,8 +6,15 @@ import { Main } from './Main';
 import { PopupWithForm } from './PopupWithForm';
 import { popupOptions } from '../utils/constants';
 import { ImagePopup } from './ImagePopup';
+import { api } from '../utils/api';
 
 function App() {
+  const [currentUser, setCurrentUser] = React.useState({
+    name: '',
+    description: '',
+    avatar: '',
+  });
+
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -30,13 +37,23 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
-    setIsConfirmPopupOpen(false)
+    setIsConfirmPopupOpen(false);
     setSelectedCard(null);
   };
 
   const _handleCardClick = card => {
     setSelectedCard(card);
   };
+
+  useEffect(() => {
+    api.loadUserInfo().then(res => {
+      setCurrentUser({
+        name: res.name,
+        description: res.about,
+        avatar: res.avatar,
+      });
+    });
+  }, []);
 
   return (
     <div className="root">
