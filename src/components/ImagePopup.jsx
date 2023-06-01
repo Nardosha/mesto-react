@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { AppContext } from '../contexts/AppContext';
 
 export const ImagePopup = ({ card }) => {
-  const { _, closeAllPopups } = useContext(AppContext);
+  const { closeAllPopups } = useContext(AppContext);
 
   usePopupClose(!!card?.link, closeAllPopups);
 
