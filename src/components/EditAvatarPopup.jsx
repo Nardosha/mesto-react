@@ -1,23 +1,25 @@
-import { PopupWithForm } from "./PopupWithForm";
-import React, { useRef } from "react";
+import { PopupWithForm } from './PopupWithForm';
+import React, { useContext, useRef } from 'react';
+import { AppContext } from '../contexts/AppContext';
 
-export const EditAvatarPopup = ({isOpen, onClose, onUpdateAvatar}) => {
+export const EditAvatarPopup = ({ isOpen, onUpdateAvatar }) => {
+  const { isLoading, closeAllPopups } = useContext(AppContext);
+
   const avatarLinkRef = useRef();
 
-  const _handleSubmit = (e) => {
-    e.preventDefault()
+  const _handleSubmit = e => {
+    e.preventDefault();
 
-    onUpdateAvatar({avatar: avatarLinkRef.current.value});
-
-    onClose();
-  }
+    onUpdateAvatar({ avatar: avatarLinkRef.current.value });
+  };
 
   return (
     <PopupWithForm
       name="update-avatar"
       title="Обновить аватар"
+      submitButtonText={isLoading ? 'Сохранение...' : 'Сохранить'}
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={closeAllPopups}
       onSubmit={_handleSubmit}
     >
       <fieldset className="form__inputs" form="form_avatar">
@@ -39,5 +41,5 @@ export const EditAvatarPopup = ({isOpen, onClose, onUpdateAvatar}) => {
         </label>
       </fieldset>
     </PopupWithForm>
-  )
-}
+  );
+};
