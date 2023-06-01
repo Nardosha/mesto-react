@@ -118,21 +118,17 @@ function App() {
   };
 
   useEffect(() => {
-    api
-      .loadUserInfo()
-      .then(res => {
+    Promise.all([api.loadUserInfo(), api.getInitialCards()])
+      .then(([userInfo, cards]) => {
         setCurrentUser({
-          name: res.name,
-          description: res.about,
-          avatar: res.avatar,
-          _id: res._id,
+          name: userInfo.name,
+          description: userInfo.about,
+          avatar: userInfo.avatar,
+          _id: userInfo._id,
         });
-
-        return api.getInitialCards();
-      })
-      .then(cards => {
         setCards([...cards]);
-      });
+      })
+      .catch(console.error);
   }, []);
 
   return (
