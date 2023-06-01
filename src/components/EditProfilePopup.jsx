@@ -23,8 +23,6 @@ export const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
       name,
       description,
     });
-
-    onClose();
   };
 
   useEffect(() => {
