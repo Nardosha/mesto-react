@@ -28,12 +28,6 @@ function App() {
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
 
-  const isPopupOpen =
-    isEditProfilePopupOpen ||
-    isAddPlacePopupOpen ||
-    isEditAvatarPopupOpen ||
-    isConfirmPopupOpen;
-
   const _handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
   };
@@ -139,19 +133,6 @@ function App() {
         setCards([...cards]);
       });
   }, []);
-
-  useEffect(() => {
-    const closeByEscape = evt => {
-      if (evt.code !== 'Escape') return;
-      closeAllPopups();
-    };
-
-    if (isPopupOpen) {
-      document.addEventListener('keydown', closeByEscape);
-    } else {
-      document.removeEventListener('keydown', closeByEscape);
-    }
-  }, [isPopupOpen]);
 
   return (
     <div className="root">
