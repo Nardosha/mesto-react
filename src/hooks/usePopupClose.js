@@ -6,13 +6,11 @@ export const usePopupClose = (isOpen, closeAllPopups) => {
     if (!isOpen) return;
 
     const handleOverlayClick = evt => {
-      console.log('handleOverlayClick', evt);
       if (evt.target.classList.contains(popupOptions.openedPopupClass)) {
         closeAllPopups();
       }
     };
     const handleEscapeDown = evt => {
-      console.log('handleEscapeDown', evt);
       if (evt.code !== 'Escape') return;
       closeAllPopups();
     };

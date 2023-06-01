@@ -1,7 +1,11 @@
 import { PopupWithForm } from './PopupWithForm';
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from "react";
+import { AppContext } from "../contexts/AppContext";
 
-export const AddPlacePopup = ({ isOpen, onClose, onAddPlace }) => {
+export const AddPlacePopup = ({ isOpen, onAddPlace }) => {
+  const { isLoading, closeAllPopups } = useContext(AppContext);
+
+
   const placeNameRef = useRef();
   const placeLinkRef = useRef();
 
@@ -12,16 +16,15 @@ export const AddPlacePopup = ({ isOpen, onClose, onAddPlace }) => {
       name: placeNameRef.current.value,
       link: placeLinkRef.current.value,
     });
-
-    onClose();
   };
 
   return (
     <PopupWithForm
       name="add-photo"
       title="Новое место"
+      submitButtonText={isLoading ? 'Сохранение...' : 'Сохранить'}
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={closeAllPopups}
       onSubmit={_handleAddPlace}
     >
       <fieldset className="form__inputs" form="form_image">

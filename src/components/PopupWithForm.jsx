@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
 import { popupOptions } from '../utils/constants';
 import { AppContext } from '../contexts/AppContext';
-import { usePopupClose } from "../hooks/usePopupClose";
+import { usePopupClose } from '../hooks/usePopupClose';
 
 export const PopupWithForm = props => {
-  const { name, title, isOpen, onSubmit } = props;
-  const { isLoading, closeAllPopups } = useContext(AppContext);
+  const { name, title, submitButtonText, isOpen, onClose, onSubmit } = props;
 
-  usePopupClose(isOpen, closeAllPopups)
+  usePopupClose(isOpen, onClose);
 
   return (
     <dialog
@@ -22,8 +21,8 @@ export const PopupWithForm = props => {
           type="button"
           data-action="CLOSE"
           aria-label="Закрыть"
-          onClick={closeAllPopups}
-        ></button>
+          onClick={onClose}
+        />
 
         <h2 className="popup__title">{title}</h2>
 
@@ -42,7 +41,7 @@ export const PopupWithForm = props => {
             id="form_button_submit"
             data-action="SUBMIT"
           >
-            {isLoading ? 'Сохранение...' : 'Сохранить'}
+            {submitButtonText}
           </button>
         </form>
       </div>

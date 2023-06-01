@@ -77,7 +77,7 @@ function App() {
 
   const _handleUpdateAvatar = ({ avatar }) => {
     const submitEditUserAvatar = () => {
-      api.editUserAvatar({ avatar }).then(user => {
+      return api.editUserAvatar({ avatar }).then(user => {
         setCurrentUser({ ...currentUser, avatar: user.avatar });
       });
     };
@@ -87,7 +87,7 @@ function App() {
 
   const _handleAddPlaceSubmit = card => {
     const submitAddPlace = () => {
-      api.createCard(card).then(newCard => {
+      return api.createCard(card).then(newCard => {
         setCards([newCard, ...cards]);
       });
     };
@@ -98,11 +98,14 @@ function App() {
   const _handleCardLike = card => {
     const isLiked = card.likes.find(user => user._id === currentUser._id);
 
-    api.changeLikeCardStatus(card._id, !isLiked).then(newCard => {
-      setCards(state =>
-        state.map(card => (card._id === newCard._id ? newCard : card)),
-      );
-    });
+    api
+      .changeLikeCardStatus(card._id, !isLiked)
+      .then(newCard => {
+        setCards(state =>
+          state.map(card => (card._id === newCard._id ? newCard : card)),
+        );
+      })
+      .catch(console.error);
   };
 
   const _handleDeleteCard = deletedCard => {
@@ -111,9 +114,7 @@ function App() {
       .then(() => {
         setCards(state => state.filter(card => card._id !== deletedCard._id));
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(console.error);
   };
 
   useEffect(() => {
